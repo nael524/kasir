@@ -1,22 +1,25 @@
 import "../styles/Login.css";
 import gambar from "../images/logo1.png";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(""); // ⬅️ Tambahan state untuk error
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     username: "",
     password: "",
   });
 
+  const navigate = useNavigate();
+
+  // toggle show/hide password
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  // Handle input
+  // handle input
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -24,26 +27,50 @@ const Login = () => {
     });
   };
 
-  // Handle login button
+  // handle login
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (form.username === "" || form.password === "") {
-      setError("⚠️ Username dan Password tidak boleh kosong!");
+      setError("Oopss...\nTidak Boleh Kosong");
       return;
     }
 
-    // kalau mau cek username/password benar, bisa tambahkan disini
-    setError("");
-    alert("Login berhasil!");
+    // akun statis
+    const dummyUser = {
+      username: "admin",
+      password: "12345",
+    };
+
+    if (
+      form.username === dummyUser.username &&
+      form.password === dummyUser.password
+    ) {
+      setError("");
+      alert("Login berhasil!");
+      navigate("/home");
+    } else {
+      setError("Oopss...\nAda yang salah ni");
+    }
   };
 
+  // loading screen 2 detik
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  // auto-hide error 3 detik
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError("");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   if (loading) {
     return (
@@ -61,8 +88,13 @@ const Login = () => {
             <img src={gambar} alt="logo" />
           </p>
 
-          {/* Pesan Error */}
-          {error && <p className="error-text">{error}</p>}
+          {/* pesan error */}
+          {error && (
+            <div className="error-text1"><br/>
+              <span className="icon">❌</span><br/>
+              <span style={{ whiteSpace: "pre-line" }}>{error}</span>
+            </div>
+          )}
 
           <input
             type="text"
@@ -92,10 +124,6 @@ const Login = () => {
               onChange={handleShowPassword}
             />
             Show Password
-          </label>
-
-          <label className="sing">
-            <Link to="/reg">Sign Up</Link>
           </label>
 
           <button type="submit">Login</button>

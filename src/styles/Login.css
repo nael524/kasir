@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* Atau bisa juga via link di index.html <head> */
+
 .container-login {
   text-align: center;
   border: 2px solid #8f6753;
@@ -8,8 +12,8 @@
   height: 500px;
   position: relative;
   top: 100px;
-  box-shadow: 8px 8px 8px 5px rgba(0, 0, 0, 0.2) ;
-   margin: 0 auto;
+  box-shadow: 8px 8px 8px 5px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
   background-image: url(../images/back1.jpg);
   background-color: #8f6753;
 }
@@ -20,7 +24,6 @@
   height: 70px;
   background-size: cover;
   background-position: center;
-  
 }
 .logo {
   background-color: rgb(255, 255, 255);
@@ -30,7 +33,7 @@
   position: relative;
   left: 180px;
   top: -15px;
-  border:2px solid #8b5a4a;
+  border: 2px solid #8b5a4a;
 }
 img {
   width: 130px;
@@ -46,7 +49,7 @@ input {
   color: #000000;
   border: 2px solid #8b5a4a;
 }
- 
+
 .sampbut {
   background-color: #ffffff;
   margin: 0 auto;
@@ -55,31 +58,31 @@ input {
   margin-top: -20px;
   position: relative;
   top: 35px;
-  border:3px solid #8b5a4a;
+  border: 3px solid #8b5a4a;
   border-radius: 10px;
 }
 button {
-  background-color:#8f6753;
+  background-color: #8f6753;
   height: 35px;
-  width: 130px;
+  width: 150px;
   border-radius: 10px;
-  border:  2px solid #ffffff;
+  border: 2px solid #ffffff;
   position: relative;
-  top: -15px;
+  top: 10px;
   color: white;
 }
-button:hover{
-    background-color: #8f6753;
-    transform: scale(1.05);
-    color: #ffffff;
-    border: 1px solid white;
+button:hover {
+  background-color: #8f6753;
+  transform: scale(1.05);
+  color: #ffffff;
+  border: 1px solid white;
 }
-  .active {
-      background-color: white;
-      color: #8b5a4a;
-      font-weight: bold;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-    }
+.active {
+  background-color: white;
+  color: #8b5a4a;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
 form {
   margin-top: 70px;
 }
@@ -93,25 +96,25 @@ label {
   align-items: center;
   gap: 8px;
   position: relative;
-  left:120px;
+  left: 120px;
   font-weight: normal;
-   border-radius: 4px;
+  border-radius: 4px;
 }
 
-.inpot   {
+.inpot {
   width: 18px;
   height: 18px;
   accent-color: rgb(0, 0, 0); /* warna centang */
   cursor: pointer;
   color: black;
 }
-.sing a{
-    position: relative;
-    right:-220px;
-    top: -22px;
-    font-size: 12px;
-    color: #000000;
-    text-decoration: none;
+.sing a {
+  position: relative;
+  right: -220px;
+  top: -22px;
+  font-size: 12px;
+  color: #000000;
+  text-decoration: none;
 }
 .loading-screen {
   position: fixed;
@@ -120,7 +123,7 @@ label {
   width: 100%;
   height: 100%;
   background: white;
-   display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
@@ -137,8 +140,12 @@ label {
 
 /* Animasi logo mutar */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Animasi fade out saat loading selesai */
@@ -157,4 +164,51 @@ label {
   margin: 0 auto;
   border-radius: 10px;
   width: 200px;
+}
+/* toast error mengapung di atas, tidak menggeser elemen */
+.error-text1 {
+  position: fixed; /* tetap di layar */
+  top: 300px; /* jarak dari atas layar */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff; /* merah */
+  color: rgb(0, 0, 0);
+  font-weight: normal;
+  font-size: 12px;
+  padding: 12px 24px;
+  font-family: "Poppins", sans-serif;
+  border-radius: 10px;
+  width: 250px;
+  height: 120px;
+  padding-top: -100px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 9999; /* pastikan di atas semua */
+  animation: fadein 0.3s, fadeout 0.3s 2.5s; /* muncul sebentar lalu hilang */
+}
+
+/* animasi muncul dan hilang */
+@keyframes fadein {
+  from {
+    opacity: 0;
+    top: 0;
+  }
+  to {
+    opacity: 1;
+    top: 20px;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.icon{
+  font-size: 30px;
+}
+.login1{
+  
 }

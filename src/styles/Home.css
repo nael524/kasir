@@ -1,0 +1,35 @@
+body {
+  background-color: #e3dac9;
+  font-family: "Poppins", sans-serif;
+}
+.logo1 {
+  font-weight: bold;
+  font-size: 20px;
+  color: #8b5a4a;
+  margin-top: -40px;
+  margin-left: 20px;
+}
+.logo1 img {
+  background-color: white;
+  border-radius: 100px;
+  height: 90px;
+  width: 90px;
+  position: relative;
+  top: 40px;
+  left: -10px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+.search{
+    position: relative;
+    border-radius: 50px;
+    width: 300px;
+    margin-top: -35px;
+    margin-left: 300px;
+}
+.search input{
+    border-radius: 30px;
+    width: 150%;
+    height: 45px;
+    font-size: 15px;
+}
