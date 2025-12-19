@@ -1,0 +1,13 @@
+{
+  "name": "db-connection",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "db.js",
+  "scripts": {
+    "start": "node db.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "mysql2": "^3.11.0"
+  }
+}
