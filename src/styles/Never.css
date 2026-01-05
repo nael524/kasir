@@ -1,0 +1,48 @@
+.container-navbar {
+  position: relative;
+  z-index: 999999;
+  top: 120px;
+  left: 0px;
+}
+nav li {
+  color: rgb(255, 255, 255);
+  list-style: none;
+  background-color: #8b5a4a;
+  width: 180px;
+  border: 2px solid white;
+  margin-bottom: 15px;
+  height: 45px;
+  border-radius: 30px;
+}
+nav a {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  position: relative;
+
+  top: 10px;
+}
+nav {
+  text-align: center;
+}
+
+nav li:hover {
+  background-color: #ffdfa5;
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+}
+nav h2 {
+  text-align: left;
+  color: #ffdfa5;
+  position: absolute;
+  top: 360px;
+  left: -2px;
+}
+h2 img {
+  height: 250px;
+  width: 250px;
+  left: 10px;
+  position: relative;
+  margin-top: -50px;
+  top: 10px;
+}

@@ -2,8 +2,7 @@ import "../styles/Login.css";
 import gambar from "../images/logo1.png";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const Login = () => {
+ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -47,10 +46,9 @@ const Login = () => {
       form.password === dummyUser.password
     ) {
       setError("");
-      alert("Login berhasil!");
-      navigate("/home");
+       navigate("/das");
     } else {
-      setError("Oopss...\nAda yang salah ni");
+      setError("Oopss...\nUsarname atau Password kamu salah");
     }
   };
 
@@ -107,7 +105,7 @@ const Login = () => {
           <br />
 
           <input
-            type={showPassword ? "text" : "password"}
+            type="password"
             placeholder="Password"
             name="password"
             value={form.password}

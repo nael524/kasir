@@ -1,0 +1,130 @@
+    .kotak {
+      position: relative;
+      z-index: 10;
+      margin-top: -520px;
+      width: 280px;
+      height: 70px;
+      border-radius: 20px;
+      left: 360px;
+      color: #8b5a4a;
+
+      background-color: white;
+    }
+    .kotak1 {
+      position: relative;
+      z-index: 18;
+      margin-top: -70px;
+      width: 280px;
+      height: 70px;
+      border-radius: 20px;
+      left: 680px;
+      color: #8b5a4a;
+      background-color: rgb(255, 255, 255);
+    }
+    .kotak2 {
+      position: relative;
+      z-index: 10;
+      margin-top: -70px;
+      width: 280px;
+      height: 70px;
+      border-radius: 20px;
+      left: 1000px;
+
+      color: #8b5a4a;
+      background-color: rgb(255, 255, 255);
+    }
+    .intikotak {
+      margin-left: 10px;
+      top: -15px;
+      position: relative;
+      font-size: 15px;
+    }
+    .kotak,
+    .kotak1,
+    .kotak2 {
+      padding-left: 30px;
+      width: 230px;
+      padding-top: 10px;
+      height: 60px;
+    }
+    .angka {
+      margin-top: 0px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .stok {
+      background-color: white;
+      position: relative;
+      z-index: 10;
+      border-radius: 20px;
+      width: 240px;
+      left: 360px;
+      top: 30px;
+      color: #8b5a4a;
+      font-size: 20px;
+      padding-top: 10px;
+      padding-left: 20px;
+      height: 400px;
+    }
+    .stok p {
+      position: relative;
+      top: -18px;
+      height: 2px;
+      width: 110px;
+      background-color: #8b5a4a;
+    }
+    .stok1{
+      background-color: white;
+      position: relative;
+      z-index: 10;
+      border-radius: 20px;
+      width: 560px;
+      left: 680px;
+      color: #8b5a4a;
+      font-size: 20px;
+      padding-top: 10px;
+      padding-left: 20px;
+      height: 150px;
+      margin-top: -380px;
+    }
+    .stok1 p {
+      position: relative;
+      top: -18px;
+      height: 2px;
+      width: 140px;
+      background-color: #8b5a4a;
+    }
+    .promosi{
+      color: rgb(255, 255, 255);
+      font-size: 20px;
+      position: absolute;
+      left: 700px;
+      top: 250px;
+      z-index: 1992;
+    }.promosi p{
+      position: relative;
+      top: -18px;
+      height: 2px;
+      width: 80px;
+      background-color: #ffffff;
+    }
+    .promosi2 ,.promosi3{
+      background-color: white;
+      width: 280px;
+      border-radius: 20px;
+      position: relative;
+      height: 190px;
+    }
+    .promosi1{
+      display: flex;
+      margin: 0 auto;
+      gap: 20px;
+      top: 320px;
+      left: 680px;
+      position: absolute;
+    }
+    .promosi1 img{
+      width: 280px;
+      border-radius: 20px;
+      height: 190px;
+    }
