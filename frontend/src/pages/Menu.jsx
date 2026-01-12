@@ -1,12 +1,14 @@
+// 🔥 FINAL VERSION — MENU MAKANAN
+
 import Home from "./Home";
 import "../styles/Menu.css";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../components/Cart";
-import api from "../api";
+import axios from "axios";
+
 const Menu = () => {
-  const { cart, tambahKeKeranjang, kurangQty, hapusItem, totalSemua } =
-    useCart();
+  const { cart, tambahKeKeranjang, kurangQty, hapusItem, totalSemua } = useCart();
   const navigate = useNavigate();
 
   const [dataMenu, setDataMenu] = useState([]);
@@ -16,15 +18,25 @@ const Menu = () => {
   const [showCart, setShowCart] = useState(false);
   const cartRef = useRef(null);
 
-  // 🔥 AMBIL DATA MAKANAN
+  // 🔥 AMBIL DATA MAKANAN DARI BACKEND NODE/EXPRESS
   useEffect(() => {
-    api.get("/products").then((res) => {
-      const makanan = res.data.filter((p) => p.tipe === "makanan");
-      setDataMenu(makanan);
-    });
+    axios
+      .get("http://localhost:5000/api/products")
+      .then((res) => {
+        const makanan = res.data.filter((p) => p.tipe === "makanan");
+
+        // perbaikan path gambar
+        const finalList = makanan.map((p) => ({
+          ...p,
+          img: `http://localhost:5000/uploads/${p.image}`,
+        }));
+
+        setDataMenu(finalList);
+      })
+      .catch((err) => console.error("Gagal ambil makanan:", err));
   }, []);
 
-  // CLOSE CART JIKA KLIK LUAR
+  // 🔥 TUTUP CART SAAT KLIK DI LUAR AREA CART
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (cartRef.current && !cartRef.current.contains(e.target)) {
@@ -32,12 +44,9 @@ const Menu = () => {
       }
     };
 
-    if (showCart) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+    if (showCart) document.addEventListener("mousedown", handleClickOutside);
 
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showCart]);
 
   return (
@@ -54,6 +63,7 @@ const Menu = () => {
         <div className="scroll-makanan">
           {dataMenu.map((item) => (
             <div key={item.id} className="card-menu">
+              
               <img src={item.img} alt={item.nama} />
 
               <p className="info1">
@@ -77,18 +87,18 @@ const Menu = () => {
         </div>
       </div>
 
-      {/* TAMBAH PRODUK */}
-      <button className="btntambah" onClick={() => navigate("/admin")}>
+      {/* 🔥 TOMBOL TAMBAH PRODUK */}
+      <button className="btntambah" onClick={() => navigate("/admin?tipe=makanan")}>
         +
       </button>
       <p className="tt">Tambah Produk</p>
 
-      {/* CART ICON */}
+      {/* 🔥 CART ICON */}
       <button className="btn-cart" onClick={() => setShowCart(!showCart)}>
         🛒
       </button>
 
-      {/* POPUP */}
+      {/* 🔥 POPUP TAMBAH PESANAN */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -108,8 +118,7 @@ const Menu = () => {
             </div>
 
             <p className="popup-total">
-              Total: Rp{" "}
-              {(selectedItem.harga * qty).toLocaleString("id-ID")}
+              Total: Rp {(selectedItem.harga * qty).toLocaleString("id-ID")}
             </p>
 
             <div className="popup-action">
@@ -122,10 +131,8 @@ const Menu = () => {
               >
                 Tambah
               </button>
-              <button
-                className="popup-batal"
-                onClick={() => setShowPopup(false)}
-              >
+
+              <button className="popup-batal" onClick={() => setShowPopup(false)}>
                 Batal
               </button>
             </div>
@@ -133,7 +140,7 @@ const Menu = () => {
         </div>
       )}
 
-      {/* CART */}
+      {/* 🔥 CART */}
       {showCart && (
         <div className="cart-fixed" ref={cartRef}>
           <h4 className="judulop">Keranjang</h4>
@@ -147,19 +154,14 @@ const Menu = () => {
               <div className="cart-qty">
                 <button onClick={() => kurangQty(item.id)}>-</button>
                 <span>{item.qty}</span>
-                <button onClick={() => tambahKeKeranjang(item, 1)}>
-                  +
-                </button>
+                <button onClick={() => tambahKeKeranjang(item, 1)}>+</button>
               </div>
 
               <span className="harga">
                 Rp {item.total.toLocaleString("id-ID")}
               </span>
 
-              <button
-                className="hapus"
-                onClick={() => hapusItem(item.id)}
-              >
+              <button className="hapus" onClick={() => hapusItem(item.id)}>
                 ❌
               </button>
             </div>

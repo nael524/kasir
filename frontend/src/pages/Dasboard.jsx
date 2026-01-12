@@ -71,8 +71,7 @@ const Dasboard = () => {
           <p></p>
         </div>
         <p className="promosi">Promosi
-          <p></p>
-        </p>
+         </p>
          <div className="promosi1">
           <div className="promosi2">
             <img src={es} alt="Minuman"/>

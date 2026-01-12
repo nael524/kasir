@@ -3,11 +3,9 @@ import "../styles/Menu.css";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../components/Cart";
-import api from "../api";
 
 const Minuman = () => {
-  const { cart, tambahKeKeranjang, kurangQty, hapusItem, totalSemua } =
-    useCart();
+  const { cart, tambahKeKeranjang, kurangQty, hapusItem, totalSemua } = useCart();
   const navigate = useNavigate();
 
   const [dataMenu, setDataMenu] = useState([]);
@@ -17,14 +15,14 @@ const Minuman = () => {
   const [showCart, setShowCart] = useState(false);
   const cartRef = useRef(null);
 
-  // 🔥 AMBIL DATA MINUMAN
+  // 🔥 AMBIL DATA MINUMAN DARI LOCALSTORAGE
   useEffect(() => {
-    api.get("/products").then((res) => {
-      const minuman = res.data.filter((p) => p.tipe === "minuman");
-      setDataMenu(minuman);
-    });
+    const products = JSON.parse(localStorage.getItem("products")) || [];
+    const minuman = products.filter((p) => p.tipe === "minuman");
+    setDataMenu(minuman);
   }, []);
 
+  // 🔥 MENUTUP CART JIKA KLIK DI LUAR AREA
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (cartRef.current && !cartRef.current.contains(e.target)) {
@@ -32,10 +30,7 @@ const Minuman = () => {
       }
     };
 
-    if (showCart) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
+    if (showCart) document.addEventListener("mousedown", handleClickOutside);
     return () =>
       document.removeEventListener("mousedown", handleClickOutside);
   }, [showCart]);
@@ -47,6 +42,7 @@ const Minuman = () => {
       <div className="container-menu1">
         <p className="judul">Minuman</p>
 
+        {/* pindah ke Makanan */}
         <button className="btnminum">
           <Link to="/menu">Makanan</Link>
         </button>
@@ -54,7 +50,7 @@ const Minuman = () => {
         <div className="scroll-makanan">
           {dataMenu.map((item) => (
             <div key={item.id} className="card-menu">
-              <img src={item.img} alt={item.nama} />
+              <img src={item.image} alt={item.nama} />
 
               <p className="info1">
                 {item.nama}
@@ -77,15 +73,21 @@ const Minuman = () => {
         </div>
       </div>
 
-      <button className="btntambah" onClick={() => navigate("/admin")}>
+      {/* 🔥 TOMBOL TAMBAH PRODUK — AUTOMATIS TIPE MINUMAN */}
+      <button
+        className="btntambah"
+        onClick={() => navigate("/admin?tipe=minuman")}
+      >
         +
       </button>
       <p className="tt">Tambah Produk</p>
 
+      {/* 🔥 CART ICON */}
       <button className="btn-cart" onClick={() => setShowCart(!showCart)}>
         🛒
       </button>
 
+      {/* 🔥 POPUP TAMBAH PESANAN */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -94,7 +96,7 @@ const Minuman = () => {
             <div className="samping">
               <p className="popup-nama">{selectedItem.nama}</p>
               <p className="popup-harga">
-                Rp {selectedItem.harga.toLocaleString("id-ID")}
+                Rp {Number(selectedItem.harga).toLocaleString("id-ID")}
               </p>
             </div>
 
@@ -106,7 +108,7 @@ const Minuman = () => {
 
             <p className="popup-total">
               Total: Rp{" "}
-              {(selectedItem.harga * qty).toLocaleString("id-ID")}
+              {Number(selectedItem.harga * qty).toLocaleString("id-ID")}
             </p>
 
             <div className="popup-action">
@@ -119,6 +121,7 @@ const Minuman = () => {
               >
                 Tambah
               </button>
+
               <button
                 className="popup-batal"
                 onClick={() => setShowPopup(false)}
@@ -130,27 +133,28 @@ const Minuman = () => {
         </div>
       )}
 
+      {/* 🔥 CART */}
       {showCart && (
         <div className="cart-fixed" ref={cartRef}>
           <h4 className="judulop">Keranjang</h4>
 
+          {cart.length === 0 && <p>Kosong</p>}
+
           {cart.map((item) => (
             <div key={item.id} className="cart-item">
               <span className="nama">{item.nama}</span>
+
               <div className="cart-qty">
                 <button onClick={() => kurangQty(item.id)}>-</button>
                 <span>{item.qty}</span>
-                <button onClick={() => tambahKeKeranjang(item, 1)}>
-                  +
-                </button>
+                <button onClick={() => tambahKeKeranjang(item, 1)}>+</button>
               </div>
+
               <span className="harga">
                 Rp {item.total.toLocaleString("id-ID")}
               </span>
-              <button
-                className="hapus"
-                onClick={() => hapusItem(item.id)}
-              >
+
+              <button className="hapus" onClick={() => hapusItem(item.id)}>
                 ❌
               </button>
             </div>
@@ -158,8 +162,8 @@ const Minuman = () => {
 
           <div className="total9">
             <h4 className="total">
-              Total:
-              <br /> Rp {totalSemua.toLocaleString("id-ID")}
+              Total:<br />
+              Rp {totalSemua.toLocaleString("id-ID")}
             </h4>
             <button>Buat Pesanan</button>
           </div>

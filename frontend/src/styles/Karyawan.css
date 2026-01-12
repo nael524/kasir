@@ -1,0 +1,79 @@
+.table-name {
+  position: relative;
+  width: 930px;
+  height: 360px;
+  border-radius: 15px;
+  margin-top: -415px;
+  margin-left: 360px;
+  background-color: white;
+}
+.navbarsearc {
+}
+.navbarsearch svg {
+  font-size: 80px;
+  vertical-align: middle;
+  position: absolute;
+  color: #ffffff;
+  margin-top: -540px;
+  margin-left: 380px;
+}
+.isi {
+  position: absolute;
+  color: #ffffff;
+  margin-top: -540px;
+  margin-left: 490px;
+  font-size: 13px;
+}
+.btn {
+  position: relative;
+  margin-left: 500px;
+  z-index: 1000000;
+  top: -90px;
+  cursor: pointer;
+}
+.namadaftar {
+  font-size: 24px;
+  top: -15px;
+  position: relative;
+}
+
+.table-container {
+  position: relative;
+  margin-top: -360px;
+  margin-left: 380px;
+  width: 1000px;
+}
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.btn-edit,
+.btn-delete {
+  z-index: 1000000;
+
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-edit {
+  background-color: #2196f3;
+  color: #fff;
+  width: 50px;
+}
+
+.btn-delete {
+  background-color: #f44336;
+  color: #fff;
+  width: 60px;
+}
+th {
+  font-weight: 600;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}

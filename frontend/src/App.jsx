@@ -8,8 +8,7 @@ import Order from "./pages/Order";
 import Karyawan from "./pages/Karyawan";
 import History from "./pages/History";
 import Profil from "./pages/Profil";
-import AdminPesanan from "./pages/AdminPesanan";
-import AdminTambahProduk from "./pages/AdminTambahProduk";
+ import AdminTambahProduk from "./pages/AdminTambahProduk";
 import Minuman from "./pages/Minuman";
 function App() {
   return (
@@ -26,8 +25,7 @@ function App() {
           <Route path="/profil" element={<Profil />} />
           <Route path="/minum" element={<Minuman />} />
           <Route path="/admin" element={<AdminTambahProduk />} />
-          <Route path="/admin/pesanan" element={<AdminPesanan />} />
-        </Routes>
+         </Routes>
       </BrowserRouter>
     </>
   );
