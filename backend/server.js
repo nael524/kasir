@@ -1,5 +1,7 @@
+require("dotenv").config(); // WAJIB
+
 const express = require("express");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
@@ -8,66 +10,84 @@ const fs = require("fs");
 const app = express();
 
 /* =======================
+   DEBUG ENV (CEK RAILWAY)
+======================= */
+console.log("🔍 ENV CHECK:", {
+  MYSQLHOST: process.env.MYSQLHOST,
+  MYSQLUSER: process.env.MYSQLUSER,
+  MYSQLDATABASE: process.env.MYSQLDATABASE,
+  MYSQLPORT: process.env.MYSQLPORT,
+  PORT: process.env.PORT,
+});
+
+/* =======================
    MIDDLEWARE
 ======================= */
-app.use(
-  cors({
-    origin: "*", // 🔥 PENTING: IZINKAN SEMUA ORIGIN (DEV + PROD)
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
-
+app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"] }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /* =======================
-   UPLOADS FOLDER
+   UPLOADS
 ======================= */
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
-}
-
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+const uploadDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+app.use("/uploads", express.static(uploadDir));
 
 /* =======================
-   MULTER CONFIG
+   MULTER
 ======================= */
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads"),
-  filename: (req, file, cb) =>
-    Date.now() +
-    "-" +
-    Math.round(Math.random() * 1e9) +
-    path.extname(file.originalname),
+  destination: uploadDir,
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
 });
-
 const upload = multer({ storage });
 
 /* =======================
-   DATABASE
+   DATABASE (RAILWAY)
 ======================= */
-const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASS || "",
-  database: process.env.DB_NAME || "kasirkami",
+const db = mysql.createPool({
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: Number(process.env.MYSQLPORT),
+  waitForConnections: true,
+  connectionLimit: 10,
+  ssl: process.env.MYSQLHOST?.includes("railway")
+    ? { rejectUnauthorized: false }
+    : false,
 });
 
-db.connect((err) => {
+/* TEST DATABASE */
+db.getConnection((err, conn) => {
   if (err) {
-    console.error("MySQL ERROR:", err);
-    process.exit(1);
+    console.error("❌ DATABASE ERROR:", err.message);
+  } else {
+    console.log("✅ DATABASE CONNECTED");
+    conn.release();
   }
-  console.log("Database Connected");
+});
+
+/* =======================
+   HEALTH CHECK (WAJIB)
+======================= */
+app.get("/", (req, res) => {
+  res.json({ status: "OK", service: "Kasir API running" });
 });
 
 /* =======================
    ROUTES
 ======================= */
 app.get("/products", (req, res) => {
-  db.query("SELECT * FROM products", (err, data) => {
-    if (err) return res.status(500).json(err);
-    res.json(data);
+  db.query("SELECT * FROM products", (err, rows) => {
+    if (err) {
+      console.error("SQL ERROR:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+    res.json(rows);
   });
 });
 
@@ -76,9 +96,7 @@ app.post("/products", upload.single("gambar"), (req, res) => {
   const img = req.file?.filename;
 
   if (!tipe || !nama || !harga || !stok || !img) {
-    return res
-      .status(400)
-      .json({ error: "Semua field wajib diisi + gambar" });
+    return res.status(400).json({ error: "Field belum lengkap" });
   }
 
   const sql =
@@ -100,9 +118,13 @@ app.post("/products", upload.single("gambar"), (req, res) => {
 /* =======================
    START SERVER
 ======================= */
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT;
 
-// 🔥 JANGAN PAKAI "localhost" DI PRODUCTION
-app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
+if (!PORT) {
+  console.error("❌ PORT not provided");
+  process.exit(1);
+}
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("🚀 Server running on port", PORT);
 });
